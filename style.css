@@ -1,0 +1,77 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1b1f24;
+  --muted: #5d6670;
+  --accent: #14213d;
+  --accent-fg: #ffffff;
+  --border: #d6dbe1;
+  --shadow: 0 4px 18px rgba(0, 0, 0, .18);
+  --radius: 12px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1d2228;
+    --fg: #e9edf1;
+    --muted: #a3acb6;
+    --accent: #f2a541;
+    --accent-fg: #14181d;
+    --border: #3a424c;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+  font: 15px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+#map { position: fixed; inset: 0; }
+
+.panel, .card {
+  position: absolute; z-index: 1000; background: var(--bg); color: var(--fg);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.panel { top: 12px; left: 12px; width: 340px; max-height: calc(100% - 24px); overflow: auto; padding: 12px 14px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+h1 { font-size: 17px; margin: 0; }
+.icon-btn { background: none; border: 0; color: var(--fg); font-size: 20px; cursor: pointer; padding: 4px 8px; line-height: 1; }
+#search { display: flex; gap: 6px; margin: 10px 0 4px; }
+#search input { flex: 1; min-width: 0; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--fg); font-size: 16px; }
+button { font: inherit; }
+#search button, dialog button { padding: 8px 12px; border: 0; border-radius: 8px; background: var(--accent); color: var(--accent-fg); cursor: pointer; }
+.results { list-style: none; margin: 4px 0 8px; padding: 0; border: 1px solid var(--border); border-radius: 8px; }
+.results li { padding: 8px 10px; cursor: pointer; border-top: 1px solid var(--border); font-size: 14px; }
+.results li:first-child { border-top: 0; }
+.results li:hover, .results li:focus { background: rgba(127, 127, 127, .12); }
+
+.field { display: block; margin: 10px 0 0; border: 0; padding: 0; }
+.field > span, .field legend { display: block; font-weight: 600; font-size: 13px; color: var(--muted); margin-bottom: 4px; padding: 0; }
+.field select { width: 100%; padding: 7px 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--fg); font-size: 15px; }
+fieldset.field label { display: block; padding: 2px 0; }
+
+.legend { margin-top: 12px; }
+.legend-bar { height: 10px; border-radius: 5px;
+  background: linear-gradient(90deg, rgba(255,237,160,.6), #feb24c, #f03b20, #bd0026, #54278f); }
+.legend-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+#layer-info { font-size: 13px; margin: 8px 0 0; }
+a { color: inherit; }
+
+.card { right: 12px; top: 12px; width: 340px; padding: 14px 16px; max-height: calc(100% - 24px); overflow: auto; }
+.card .close { position: absolute; right: 6px; top: 6px; }
+.card h2 { font-size: 16px; margin: 0 28px 4px 0; }
+.score { display: flex; align-items: baseline; gap: 10px; margin: 8px 0; }
+.score .num { font-size: 40px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.score .label { font-weight: 600; }
+.card table { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.card th, .card td { text-align: right; padding: 4px 4px; border-bottom: 1px solid var(--border); }
+.card th:first-child, .card td:first-child { text-align: left; }
+.card .note { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+.pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; color: #fff; }
+
+dialog { max-width: 560px; border: 0; border-radius: var(--radius); background: var(--bg); color: var(--fg); box-shadow: var(--shadow); }
+dialog::backdrop { background: rgba(0,0,0,.4); }
+
+@media (max-width: 720px) {
+  .panel { left: 8px; right: 8px; top: 8px; width: auto; max-height: 60%; }
+  .panel.collapsed #panel-body { display: none; }
+  .card { left: 8px; right: 8px; top: auto; bottom: 8px; width: auto; max-height: 55%; }
+  .leaflet-bottom.leaflet-right { bottom: 0; }
+}

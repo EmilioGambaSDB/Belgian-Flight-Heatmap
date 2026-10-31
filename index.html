@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belgium Flight Heatmap</title>
+<meta name="description" content="Where do planes from Brussels Airport fly over? A free heatmap of past and expected flight paths with an overflight score per address, for house hunters.">
+<meta name="theme-color" content="#14213d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="map" aria-label="Map"></div>
+
+<header id="panel" class="panel">
+  <div class="panel-head">
+    <h1>Belgium Flight Heatmap</h1>
+    <button id="toggle-panel" class="icon-btn" aria-expanded="true" aria-controls="panel-body" title="Show or hide controls">☰</button>
+  </div>
+  <div id="panel-body">
+    <form id="search" autocomplete="off">
+      <input id="q" type="search" placeholder="Search an address, e.g. Kerkstraat 1, Kortenberg" aria-label="Address">
+      <button type="submit">Search</button>
+    </form>
+    <ul id="results" class="results" hidden></ul>
+
+    <label class="field">
+      <span>Show</span>
+      <select id="layer">
+        <optgroup label="Expected (modelled)">
+          <option value="modelled_year" selected>Typical year, all winds</option>
+          <option value="modelled_west">Westerly wind (most days)</option>
+          <option value="modelled_east">Easterly wind</option>
+          <option value="modelled_weekend">Weekend / night scheme</option>
+        </optgroup>
+        <optgroup label="Observed (real tracks)">
+          <option value="observed_30">Last 30 days</option>
+          <option value="observed_90">Last 90 days</option>
+          <option value="observed_365">Last 12 months</option>
+        </optgroup>
+      </select>
+    </label>
+
+    <fieldset class="field">
+      <legend>Altitude</legend>
+      <label><input type="checkbox" name="band" value="0" checked> Low, under 600 m (loud)</label>
+      <label><input type="checkbox" name="band" value="1" checked> Medium, 600 to 1,500 m</label>
+      <label><input type="checkbox" name="band" value="2"> High, 1,500 to 3,000 m (faint)</label>
+    </fieldset>
+
+    <fieldset class="field">
+      <legend>Time</legend>
+      <label><input type="radio" name="time" value="all" checked> Day and night</label>
+      <label><input type="radio" name="time" value="day"> Day only (06:00 to 23:00)</label>
+      <label><input type="radio" name="time" value="night"> Night only (23:00 to 06:00)</label>
+    </fieldset>
+
+    <div class="legend" aria-hidden="true">
+      <div class="legend-bar"></div>
+      <div class="legend-labels"><span>1 / day</span><span>10</span><span>100+</span></div>
+    </div>
+    <p id="layer-info" class="muted"></p>
+    <p class="muted small">Tap anywhere on the map, or search an address, to get its overflight score. <a href="#" id="about-link">How this works</a></p>
+  </div>
+</header>
+
+<section id="card" class="card" hidden aria-live="polite">
+  <button id="close-card" class="icon-btn close" title="Close">×</button>
+  <div id="card-body"></div>
+</section>
+
+<dialog id="about">
+  <h2>How this works</h2>
+  <p><strong>Observed</strong> layers come from real aircraft positions (ADS-B) recorded by the <a href="https://opensky-network.org" target="_blank" rel="noopener">OpenSky Network</a>. Every day the tracks of all Brussels Airport departures and arrivals are downloaded, and each ~500 m square counts how many flights crossed it below 3,000 m.</p>
+  <p><strong>Expected</strong> layers are a model of the future: the runway layout, the preferential runway system (which runways are used with which wind, on weekdays, weekends and at night), simplified departure routes and 3° approaches. They show what to expect in general, not exact routes, and do not reflect future rule changes.</p>
+  <p><strong>The score</strong> (0 to 10) counts flights per day over a spot, weighted by altitude (low counts fully, medium about a third, high a tenth) and with night flights counting ten times, like the official L<sub>den</sub> noise measure. It is an indicator, not a noise measurement. Before buying, also check the official noise contours and visit at different times.</p>
+  <p class="small muted">Map data © OpenStreetMap contributors, © CARTO. Flight data © OpenSky Network, non-commercial use. Address search by Nominatim.</p>
+  <form method="dialog"><button>Close</button></form>
+</dialog>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
